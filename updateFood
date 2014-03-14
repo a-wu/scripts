@@ -1,0 +1,32 @@
+#!/bin/bash
+echo "Updating local branches"
+svnu 
+cd /Volumes/codebase/www/da.store/foodnetwork/htdocs
+svn merge ^/trunk/htdocs/foodnetwork foodnetwork
+svn merge ^/trunk/htdocs/genericplus genericplus
+cd /Volumes/codebase/www/da.store/foodnetwork/templates
+svn merge ^/trunk/templates/store_genericplus store_genericplus
+svn merge ^/trunk/templates/store_foodnetwork store_foodnetwork
+
+svn diff --summarize
+
+echo "Do you wish to continue with merge and commit? Enter to continue, n to stop, and r to stop and revert"
+
+read a
+
+case ${a} in
+    n)
+       echo "Ending, changes are not committed but also not reverted. To revert, please use r option or [svn revert -R .]"
+	   exit 1
+        ;;
+    r)  
+        cd /Volumes/codebase/www/da.store/foodnetwork
+        svn revert -R .
+        echo "Updates have been reverted"
+        ;;
+    *)
+       	svn ci
+    ;;
+esac
+
+echo "End"
