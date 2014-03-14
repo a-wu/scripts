@@ -1,7 +1,8 @@
 Scripts
 =======
 
-Scripts
+BASH Scripts for various tasks
+
 
 header - create a header output, for formatting, from sbaird
 whathaschanged - output status
