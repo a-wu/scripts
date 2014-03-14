@@ -1,0 +1,33 @@
+#!/bin/bash
+function line () {
+    linechar=${1:--}
+    # echo "1 is ${linechar}"
+    # echo c is $COLS
+    for i in $(seq 1 $(( $COLS - 1 )))
+    do
+        echo -e "${linechar}\c"
+    done
+    echo
+}
+
+COLS=${COLUMNS:-40}
+if  echo  "$1"  | egrep "^[0-9]+$"
+then
+    COLS=$1
+    shift 1
+else
+    COLS=${COLUMNS:-40}
+fi
+
+
+if [ "$1" != "" ]
+then
+    echo
+    echo
+    #echo "================================================================================"
+    line "="
+    echo -e "$*"
+    line
+    #echo "--------------------------------------------------------------------------------"
+    echo
+fi

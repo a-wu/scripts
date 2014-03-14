@@ -1,0 +1,51 @@
+#!/bin/bash
+
+versions="trunk release_fortrust foodnetwork"
+
+for i in $versions; do
+    for j in /Volumes/codebase/www /Volumes/codebase/www/da.store; do
+        cd ${j}/${i}
+        header ${PWD}
+	case $1 in
+            -v)
+                svn log -v -v --limit=${2:-5} ${PWD}
+                ;;
+            -l)
+                svn log --limit=${2:-5} ${PWD}
+                ;;
+            -p)
+                svn propget svn:mergeinfo ${PWD}
+                ;;
+            -s)
+                # svn st ${i}
+                whathaveichanged ${PWD}
+                ;;
+            *)
+                svn update ${PWD}
+                ;;
+        esac
+    done
+done
+
+exit
+for i in $versions; do
+    for j in /Volumes/codebase/www /Volumes/codebase/www/da.store; do
+        cd ${j}
+        echo -e "\n${PWD}"
+        case $1 in
+            -l)
+                svn log --limit=${2:-5} ${i}
+                ;;
+            -p)
+                svn propget svn:mergeinfo ${i}
+                ;;
+            -s)
+                # svn st ${i}
+                whathaveichanged ${i}
+                ;;
+            *)
+                svn update ${i}
+                ;;
+        esac
+    done
+done
