@@ -1,0 +1,20 @@
+#!/bin/bash
+
+USAGE="$(basename $0) project revision tag_name source_branch"
+
+defaultSource=release_fortrust
+project=${1}
+revision=${2}
+tag_name=${3}
+source_branch=${4}
+
+echo "Updating local branches"
+
+
+echo "Creating release tag from https://subversion.deliveryagent.com/svn/${project}/branches/${source_branch} at revision ${revision}"
+
+echo "svn copy -r ${revision} https://subversion.deliveryagent.com/svn/${project}/branches/${source_branch} https://subversion.deliveryagent.com/svn/${project}/tags/${tag_name}"
+
+read a
+
+svn copy -r ${revision} https://subversion.deliveryagent.com/svn/${project}/branches/${source_branch} https://subversion.deliveryagent.com/svn/${project}/tags/${tag_name}
