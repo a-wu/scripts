@@ -46,13 +46,14 @@ case ${b} in
 	   exit 1
         ;;
     r)  
-        cd /Volumes/codebase/www/da.store/foodnetwork
+        cd ${base}
         svn revert -R .
         echo "Updates have been reverted"
         ;;
     *)
+        cd ${base}
        	svn ci
         ;;
 esac
 
-echo "Operations complete"
+echo "Update Complete."

@@ -8,6 +8,11 @@ revision=${2}
 tag_name=${3}
 source_branch=${4}
 
+if [ "$#" -ne 4 ]; then
+	echo "${USAGE}"
+	exit 1
+fi
+
 echo "Updating local branches"
 
 
