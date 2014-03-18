@@ -27,7 +27,7 @@ echo "Do you wish to merge release_fortrust into foodnetwork? Press Enter to con
 read a
 
 case ${a} in
-    y)
+    y*|Y*)
         cd ${base}
         svn merge ^/branches/release_fortrust .
         ;;
@@ -41,11 +41,11 @@ echo "Do you wish to continue with merge and commit? Enter to continue, n to sto
 read b
 
 case ${b} in
-    n)
+    n|N)
        echo "Ending, changes are not committed but also not reverted. To revert, please use r option or [svn revert -R .]"
 	   exit 1
         ;;
-    r)  
+    r|R)
         cd ${base}
         svn revert -R .
         echo "Updates have been reverted"
