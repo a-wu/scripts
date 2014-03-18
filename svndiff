@@ -1,0 +1,29 @@
+#!/bin/bash
+
+USAGE="$(basename $0) project [tag/branch/trunk] revision1 [tag/branch/trunk] revision2"
+project=${1}
+source1=${2}
+revision1=${3}
+source2=${4}
+revision2=${5}
+
+if [ "$#" -ne 5 ]; then
+	echo "${USAGE}"
+	exit 1
+fi
+
+echo "Output to file? (y/n)"
+read a
+
+case ${a} in
+	y*|Y*)
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1} --new https://subversion.deliveryagent.com/svn/${project}/${source2} > ${project}_{source1}-{source2}.txt
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1} --new https://subversion.deliveryagent.com/svn/${project}/${source2} --summarize > ${project}_filelist.txt
+		;;
+	*)
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1} --new https://subversion.deliveryagent.com/svn/${project}/${source2}
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1} --new https://subversion.deliveryagent.com/svn/${project}/${source2} --summarize
+		;;
+esac
+
+
