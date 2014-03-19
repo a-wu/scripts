@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="$(basename $0) project [tag/branch/trunk] revision1 [tag/branch/trunk] revision2"
+USAGE="$(basename $0) project [tags/branch/trunk] revision1 [tags/branch/trunk] revision2"
 project=${1}
 source1=${2}
 revision1=${3}
@@ -12,17 +12,69 @@ if [ "$#" -ne 5 ]; then
 	exit 1
 fi
 
-echo "Output to file? (y/n)"
-read a
+case ${source1}
+	tags)
+		echo "What is the tag name"
+		read a
+		id1=${a}
+		fileName1=${b}
 
-case ${a} in
+	;;
+	branch)
+		echo "What is the branch name"
+		read a
+		id1=${a}
+		fileName1=${b}-${revision1}
+	;;
+	trunk)
+		source1=trunk
+		id1=''
+		fileName1=trunk-${revision1}
+
+	;;
+	*)
+		echo "Invalid option"
+		exit 1
+	;;
+esac
+
+
+case ${source2}
+	tag)
+		echo "What is the tag name"
+		read b
+		id2=${b}
+		fileName2=${b}
+	;;
+	branch)
+		echo "What is the branch name"
+		read b
+		id2=${b}
+		fileName2=${b}-${revision2}
+	;;
+	trunk)
+		source2=trunk
+		id2=''
+		fileName2=trunk-${revision2}
+	;;
+	*)
+		echo "Invalid option"
+		exit 1
+	;;
+esac			
+
+echo "Output to file? (y/n)"
+read c
+
+case ${c} in
 	y*|Y*)
-		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1} --new https://subversion.deliveryagent.com/svn/${project}/${source2} > ${project}_{source1}-{source2}.txt
-		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1} --new https://subversion.deliveryagent.com/svn/${project}/${source2} --summarize > ${project}_filelist.txt
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1}/${id1} --new https://subversion.deliveryagent.com/svn/${project}/${source2}/${id2} > ${project}_${fileName1}-${fileName2}.txt
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1}/${id1} --new https://subversion.deliveryagent.com/svn/${project}/${source2}/${id2} --summarize > ${project}_filelist.txt
+		echo "Created files ${project}_${fileName1}-${fileName2}.txt and ${project}_filelist.txt"
 		;;
 	*)
-		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1} --new https://subversion.deliveryagent.com/svn/${project}/${source2}
-		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1} --new https://subversion.deliveryagent.com/svn/${project}/${source2} --summarize
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1}/${id1} --new https://subversion.deliveryagent.com/svn/${id_1}/${source2}/${id2}
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1}/${id1} --new https://subversion.deliveryagent.com/svn/${project}/${source2}/${id2} --summarize
 		;;
 esac
 
