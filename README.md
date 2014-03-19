@@ -3,6 +3,11 @@ Scripts
 
 BASH Scripts for various tasks
 
+Installation - recommended to put the script in /opt/ for *nix
+For OSX - recommend to put script in /usr/local/Cellar
+You will probably have to run chmod 755 to be able to run the script
+
+ln -s [script] /usr/local/bin/[script]
 
 header - create a header output, for formatting, from sbaird
 whathaschanged - output status
