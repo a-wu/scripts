@@ -12,19 +12,18 @@ if [ "$#" -ne 5 ]; then
 	exit 1
 fi
 
-case ${source1}
+case ${source1} in
 	tags)
-		echo "What is the tag name"
+		echo "What is the first tag name"
 		read a
 		id1=${a}
-		fileName1=${b}
-
+		fileName1=${a}
 	;;
 	branch)
-		echo "What is the branch name"
+		echo "What is the first branch name"
 		read a
 		id1=${a}
-		fileName1=${b}-${revision1}
+		fileName1=${a}-${revision1}
 	;;
 	trunk)
 		source1=trunk
@@ -39,15 +38,15 @@ case ${source1}
 esac
 
 
-case ${source2}
-	tag)
-		echo "What is the tag name"
+case ${source2} in
+	tags)
+		echo "What is the second tag name"
 		read b
 		id2=${b}
 		fileName2=${b}
 	;;
 	branch)
-		echo "What is the branch name"
+		echo "What is the second branch name"
 		read b
 		id2=${b}
 		fileName2=${b}-${revision2}
@@ -73,7 +72,7 @@ case ${c} in
 		echo "Created files ${project}_${fileName1}-${fileName2}.txt and ${project}_filelist.txt"
 		;;
 	*)
-		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1}/${id1} --new https://subversion.deliveryagent.com/svn/${id_1}/${source2}/${id2}
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1}/${id1} --new https://subversion.deliveryagent.com/svn/${project}/${source2}/${id2}
 		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1}/${id1} --new https://subversion.deliveryagent.com/svn/${project}/${source2}/${id2} --summarize
 		;;
 esac
