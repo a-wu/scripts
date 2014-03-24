@@ -7,6 +7,7 @@ shortSource=trunk
 project=${1}
 revision=${2}
 destination=${3}
+base=/Volumes/codebase/www/
 if [ -n "${4}" ]; then
     shortSource=${4}
     fullSource=branches/${4}
@@ -14,10 +15,10 @@ fi
 
 case ${project} in
     ecom)
-        cd /Volumes/codebase/www/
+        cd ${base}
         ;;
     webdev)
-        cd /Volumes/codebase/www/da.store
+        cd ${base}/da.store
         ;;
     *)
         echo "$USAGE"
@@ -32,6 +33,36 @@ svnu
 echo "Beginning merge from ${shortSource} to ${destination}"
 cd ${destination}
 svn merge -c ${revision}  https://subversion.deliveryagent.com/svn/${project}/${fullSource} .
-echo "Press Enter to continue or Ctrl-C to stop"
+echo "Woud you like to view the diff or a summarized file list? Please press enter to skip, y for diff"
 read a
-svn ci -m "merging revision ${revision} from ${shortSource} to ${destination} branch"
+
+case ${a} in
+    y*|Y*)
+        svn diff
+        svn diff -summarize
+        ;;
+    *)
+        echo "Proceeding to commit"
+        ;;
+esac
+
+echo "Press Enter to continue merge, Ctrl+C to exit, r to stop and revert. If you exit, your changes are merged but uncommited, you must manually commit or revert them."
+read c
+
+case ${c} in
+    r*|R*:)
+        case ${project} in
+            ecom)
+                cd ${base}
+                svn revert -R .
+                ;;
+            webdev)
+                cd ${base}/da.store
+                svn revert -R .
+                ;;
+        esac
+    *)
+        svn ci -m "merging revision ${revision} from ${shortSource} to ${destination} branch"
+        ;;
+esac
+
