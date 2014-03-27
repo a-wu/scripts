@@ -1,0 +1,11 @@
+#!/bin/bash
+wd="Webdev tags"
+ec="Ecom tags"
+
+header ${wd}
+
+svnls webdev tags | grep food
+
+header ${ec}
+
+svnls ecom tags | grep food

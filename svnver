@@ -1,0 +1,21 @@
+#!/bin/bash
+
+USAGE="$(basename $0) project [tags|branches|trunk]"
+
+project=${1}
+source1=${2}
+base=https://subversion.deliveryagent.com/svn
+
+case ${source1} in
+	trunk|TRUNK)
+		svn info ${base}/${project}/${source1} | grep "Last Changed Rev:"
+		;;
+	tags|TAGS|branches|BRANCHES)
+		echo "What is the tag or branch name?"
+		read a
+		svn info ${base}/${project}/${source1}/${a} | grep "Last Changed Rev:"
+		;;
+	*)
+		echo "$USAGE"
+		exit 1
+esac

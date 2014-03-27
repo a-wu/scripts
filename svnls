@@ -1,0 +1,13 @@
+#!/bin/bash
+
+USAGE="$(basename $0) project [tags or branches] "
+project=${1}
+source1=${2}
+base=https://subversion.deliveryagent.com/svn/
+
+if [ "$#" -ne 2 ]; then
+	echo "${USAGE}"
+	exit 1
+fi
+
+svn ls ${base}/${project}/${source1}
