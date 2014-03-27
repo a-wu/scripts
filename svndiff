@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="$(basename $0) project [tags/branch/trunk] revision1 [tags/branch/trunk] revision2"
+USAGE="$(basename $0) project [tags/branches/trunk] revision1 [tags/branches/trunk] revision2"
 project=${1}
 source1=${2}
 revision1=${3}
@@ -19,7 +19,7 @@ case ${source1} in
 		id1=${a}
 		fileName1=${a}
 	;;
-	branch)
+	branches)
 		echo "What is the first branch name"
 		read a
 		id1=${a}
@@ -45,7 +45,7 @@ case ${source2} in
 		id2=${b}
 		fileName2=${b}
 	;;
-	branch)
+	branches)
 		echo "What is the second branch name"
 		read b
 		id2=${b}
@@ -68,7 +68,7 @@ read c
 case ${c} in
 	y*|Y*)
 		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1}/${id1} --new https://subversion.deliveryagent.com/svn/${project}/${source2}/${id2} > ${project}_${fileName1}_${fileName2}.txt
-		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1}/${id1} --new https://subversion.deliveryagent.com/svn/${project}/${source2}/${id2} --summarize > ${project}_filelist.txt
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/${source1}/${id1} --new https://subversion.deliveryagent.com/svn/${project}/${source2}/${id2} --summarize > ${project}_filelist_${fileName1}_${fileName2}.txt
 		echo "Created files ${project}_${fileName1}_${fileName2}.txt and ${project}_filelist.txt"
 		;;
 	*)
