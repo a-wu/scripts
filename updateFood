@@ -3,7 +3,7 @@ USAGE="$(basename $0) project"
 
 defaultSource=trunk
 from=${1}
-base=/Volumes/codebase/www/da.store/foodnetwork
+base=/Volumes/codebase/www/da.store/release_fortrust
 
 if [ -n "${1}" ]; then
     from=${1}
@@ -55,5 +55,3 @@ case ${b} in
        	svn ci
         ;;
 esac
-
-echo "Update Complete."
