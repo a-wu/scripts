@@ -10,4 +10,4 @@ if [ "$#" -ne 2 ]; then
 	exit 1
 fi
 
-svn ls ${base}/${project}/${source1}
+svn ls ${base}/${project}/${source1} | grep release

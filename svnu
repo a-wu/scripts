@@ -27,17 +27,13 @@ for i in $versions; do
     done
 done
 
-#Food
-#cd /Volumes/codebase/www/da.store/foodnetwork
-#header ${PWD}
-#svn update ${PWD}
-
 #pp_itv
-cd /Volumes/codebase/www/pp_itv
+cd /Volumes/codebase/www/brano
 header ${PWD}
 svn update ${PWD}
 
-exit
+
+
 #for i in $versions; do
 #    for j in /Volumes/codebase/www /Volumes/codebase/www/da.store; do
 #        cd ${j}

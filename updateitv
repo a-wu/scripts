@@ -1,0 +1,116 @@
+#!/bin/bash
+#variables
+rf=release_fortrust
+from=${1}
+store=/Volumes/codebase/www/da.store
+engine=/Volumes/codebase/www/
+id=itv_demo
+iq=itv_qa
+#itv_qa - webdev
+cd ${store}/${id}
+#update
+svn update
+#merge in release_fortrust
+svn merge ^/branches/${rf} .
+#get diff, summarlized list
+svn diff --summarize
+#interactive y / no or revert
+echo "Commit, revert, or exit? [y | r | e]"
+read a
+#if y, then commit, if e then exit, if r, revert
+case ${a} in
+    y*Y*)
+        svn ci -m "Updating and merging latest release_fortrust into itv_qa webdev"
+        ;;
+    e*|E*)
+        exit 1
+        ;;
+    r*|R*)
+        cd ${store}/${id}
+        svn revert -R .
+        ;;
+esac
+#itv_qa - ecom
+cd ${engine}/${id}
+svn update
+#merge
+svn merge ^/branches/${rf} .
+#diff
+svn diff --summarize
+#interactive y/ no or revert
+echo "Commit, revert, or exit? [y | r | e]"
+read b
+#if y, then commit, if e then exit, if r, revert
+case ${b} in
+    y*Y*)
+        svn ci -m "Updating and merging latest release_fortrust into itv_qa ecom"
+        ;;
+    e*|E*)
+        exit 1
+        ;;
+    r*|R*)
+        cd ${engine}/${id}
+        svn revert -R .
+        ;;
+esac
+echo "Update itv_demo? [y, n]"
+read c
+case ${c} in
+    y*|Y*)
+        #itv_qa - webdev
+        cd ${store}/${iq}
+        #update
+        svn update
+        #merge in release_fortrust
+        svn merge ^/branches/${rf} .
+        #get diff, summarlized list
+        svn diff --summarize
+        #interactive y / no or revert
+        echo "Commit, revert, or exit? [y | r | e]"
+        read d
+        #if y, then commit, if e then exit, if r, revert
+        case ${d} in
+            y*Y*)
+                svn ci -m "Updating and merging latest release_fortrust into itv_qa webdev"
+                ;;
+            e*|E*)
+                exit 1
+                ;;
+            r*|R*)
+                cd ${store}/${iq}
+                svn revert -R .
+                ;;
+        esac
+        #itv_qa - ecom
+        cd ${engine}/${iq}
+        svn update
+        #merge
+        svn merge ^/branches/${rf} .
+        #diff
+        svn diff --summarize
+        #interactive y/ no or revert
+        echo "Commit, revert, or exit? [y | r | e]"
+        read e
+        #if y, then commit, if e then exit, if r, revert
+        case ${e} in
+            y*Y*)
+                svn ci -m "Updating and merging latest release_fortrust into itv_qa ecom"
+                ;;
+            e*|E*)
+                exit 1
+                ;;
+            r*|R*)
+                cd ${engine}/${iq}
+                svn revert -R .
+                ;;
+        esac
+        ;;
+    n*|N*)
+        echo "Exiting"
+        exit 1
+        ;;
+esac
+#Update before ending
+echo "Updating local branches"
+svnitvu
+svnu 
