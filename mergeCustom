@@ -1,0 +1,79 @@
+#!/bin/bash
+
+USAGE="$(basename $0) project revision(s)"
+
+fullSource=trunk
+shortSource=trunk
+project=${1}
+revision=${2}
+base=/Volumes/codebase/www/
+if [ -n "${4}" ]; then
+    shortSource=${4}
+    fullSource=branches/${4}
+fi
+
+case ${project} in
+    ecom)
+        destination=brano
+        cd ${base}
+        echo "Updating ecom"
+        svn update ${destination}
+        ;;
+    webdev)
+        destination=franklinmint
+        cd ${base}/da.store
+        echo "Updating webdev"
+        svn update ${destination}
+        ;;
+    *)
+        echo "$USAGE"
+        exit 1
+        ;;
+esac
+
+ 
+
+
+echo "Beginning merge from ${shortSource} to ${destination}"
+cd ${destination}
+svn merge -c ${revision}  https://subversion.deliveryagent.com/svn/${project}/${fullSource} .
+echo "Woud you like to view the diff or a summarized file list? Please press enter to skip, y for diff"
+read a
+
+case ${a} in
+    y*|Y*)
+        svn diff
+        echo "Press enter to see filelist, CTRL+C to exit"
+        read d
+        svn diff --summarize
+        ;;
+    *)
+        echo "Proceeding to commit"
+        ;;
+esac
+
+echo "Press Enter to continue merge, Ctrl+C or n to exit, r to stop and revert. If you exit, your changes are merged but uncommited, you must manually commit or revert them."
+read c
+
+case ${c} in
+    r*|R*:)
+        case ${project} in
+            ecom)
+                cd ${base}/${destination}
+                svn revert -R .
+                ;;
+            webdev)
+                cd ${base}/da.store/${destination}
+                svn revert -R .
+                ;;
+        esac
+        ;;
+    n*|N*)
+        echo "Exiting, changes are merged but not yet committed. Please manually commit or revert."
+        exit 1
+        ;;
+    *)
+        svn ci -m "merging revision ${revision} from ${shortSource} to ${destination} branch"
+        ;;
+esac
+

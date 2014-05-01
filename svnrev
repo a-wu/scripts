@@ -1,9 +1,10 @@
 #!/bin/bash
 
-USAGE="$(basename $0) project [tags|branches|trunk]"
+USAGE="$(basename $0) project [tags|branches|trunk] [branch name | tag name]"
 
 project=${1}
 source1=${2}
+sourceName=${3}
 base=https://subversion.deliveryagent.com/svn
 
 case ${source1} in
@@ -11,9 +12,7 @@ case ${source1} in
 		svn info ${base}/${project}/${source1} | grep "Last Changed Rev:"
 		;;
 	tags|TAGS|branches|BRANCHES)
-		echo "What is the tag or branch name?"
-		read a
-		svn info ${base}/${project}/${source1}/${a} | grep "Last Changed Rev:"
+		svn info ${base}/${project}/${source1}/${sourceName} | grep "Last Changed Rev:"
 		;;
 	*)
 		echo "$USAGE"
