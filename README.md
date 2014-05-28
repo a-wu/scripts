@@ -28,3 +28,7 @@ mergeRelease - modified mergeit script, merge release_fortrust by default, Usage
 
 ##Temp/Optional
 updateFood - keep food network in sync with trunk for certain folders, and overall in sync with release branch for others
+
+For release information, see this document:
+
+https://sites.google.com/a/deliveryagent.com/release/home/release-guide
