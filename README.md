@@ -1,7 +1,7 @@
 Scripts
 =======
 
-###BASH Scripts for various tasks
+#BASH Scripts for various tasks
 
 ##Installation - recommended to put the script in /opt/ for nix
 For OSX - recommend to put script in /usr/local/Cellar
@@ -26,5 +26,5 @@ mergeRelease - modified mergeit script, merge release_fortrust by default, Usage
 
 
 
-Temp/Optional
+##Temp/Optional
 updateFood - keep food network in sync with trunk for certain folders, and overall in sync with release branch for others
