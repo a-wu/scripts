@@ -1,0 +1,39 @@
+#!/bin/bash
+
+USAGE="$(basename $0) project [last release tag name] [current release tag name]"
+project=${1}
+tag1=${2}
+tag2=${3}
+base=https://subversion.deliveryagent.com/svn
+
+if [ "$#" -ne 3 ]; then
+	echo "${USAGE}"
+	exit 1
+fi
+
+
+revision1=$(svnrev $project tags $tag1)
+revision2=$(svnrev $project tags $tag2)
+
+
+fileName1=${revision1}_${tag1}
+fileName2=${revision2}_${tag2}
+
+echo "Output to file? (y/n)"
+read c
+
+folderName=$(echo $tag2) | cut -c 9-30
+echo "$folderName"
+
+case ${c} in
+	y*|Y*)
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/tags/${tag1} --new https://subversion.deliveryagent.com/svn/${project}/tags/${tag2} > ${project}_${fileName1}_${fileName2}.txt
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/tags/${tag1} --new https://subversion.deliveryagent.com/svn/${project}/tags/${tag2} --summarize > ${project}_filelist_${fileName1}_${fileName2}.txt
+		;;
+	*)
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/tags/${tag1} --new https://subversion.deliveryagent.com/svn/${project}/tags/${tag2}
+		svn diff -r ${revision1}:${revision2} --old https://subversion.deliveryagent.com/svn/${project}/tags/${tag1} --new https://subversion.deliveryagent.com/svn/${project}/tags/${tag2} --summarize
+		;;
+esac
+
+

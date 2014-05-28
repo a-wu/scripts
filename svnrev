@@ -9,10 +9,10 @@ base=https://subversion.deliveryagent.com/svn
 
 case ${source1} in
 	trunk|TRUNK)
-		svn info ${base}/${project}/${source1} | grep "Last Changed Rev:"
+		svn info ${base}/${project}/${source1} | grep "Last Changed Rev:" | cut -d " " -f 4
 		;;
 	tags|TAGS|branches|BRANCHES)
-		svn info ${base}/${project}/${source1}/${sourceName} | grep "Last Changed Rev:"
+		svn info ${base}/${project}/${source1}/${sourceName} | grep "Last Changed Rev:" | cut -d " " -f 4
 		;;
 	*)
 		echo "$USAGE"
