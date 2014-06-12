@@ -41,7 +41,7 @@ read a
 
 case ${a} in
     y*|Y*)
-        svn diff
+        svDiff
         echo "Press enter to see filelist, CTRL+C to exit"
         read d
         svn diff --summarize
