@@ -28,9 +28,9 @@ for i in $versions; do
 done
 
 #pp_itv
-cd /Volumes/codebase/www/brano
-header ${PWD}
-svn update ${PWD}
+#cd /Volumes/codebase/www/brano
+#header ${PWD}
+#svn update ${PWD}
 
 
 

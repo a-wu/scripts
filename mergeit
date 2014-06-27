@@ -26,12 +26,13 @@ case ${project} in
         ;;
 esac
 
-echo -e "Update trunk and branches\c"
- 
-svnu
-
 echo "Beginning merge from ${shortSource} to ${destination}"
 cd ${destination}
+
+echo -e "Update trunk and branches\c"
+ 
+svn update
+
 svn merge -c ${revision}  https://subversion.deliveryagent.com/svn/${project}/${fullSource} .
 echo "Woud you like to view the diff or a summarized file list? Please press enter to skip, y for diff"
 read a

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branchname=`git rev-parse --abbrev-ref HEAD`
+branchname=`git rev-parse --abbrev-ref HEAD | cut -d '/' -f2 `
 commitMsgFile=$1
 commitMode=$2
 changedFiles=`git status --porcelain`
@@ -12,9 +12,8 @@ changedFiles=`git status --porcelain`
 existingMsg=`cat $commitMsgFile`
 if [ "$commitMode" = "message" ]; then
 
-	echo "Commit mode is -m"
-	echo -n "[$branchname]" > $commitMsgFile
-	echo -e "\n$existingMsg\n\n\nModified Files\n$changedFiles" >> $commitMsgFile
+	echo -n "[$branchname] - $existingMsg" > $commitMsgFile
+	echo -e "n\n\nModified Files\n$changedFiles" >> $commitMsgFile
 
 
 else
@@ -24,8 +23,8 @@ else
  	#We check the fist line of the commit message file.
 	#If it's an empty string then user didn't use `git commit --amend` so we can fill the commit msg file
   	if [ -z "$firstline" ]; then
-    	echo  "[$branchname]" >> $commitMsgFile
-    	echo  -e "#Please put commit details below this line\n\n\nModified Files\n$changedFiles" >> $commitMsgFile
+    	echo  "[$branchname] #Commit message here" >> $commitMsgFile
+    	echo  -e "\n\n\nModified Files\n$changedFiles" >> $commitMsgFile
   	fi
 
 fi
