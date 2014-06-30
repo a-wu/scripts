@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="$(basename $0) project revision(s) destination_branch [source_branch]"
+USAGE="$(basename $0) project revision(s) [source_branch]"
 
 fullSource=trunk
 shortSource=trunk
@@ -8,9 +8,9 @@ project=${1}
 revision=${2}
 destination=release_fortrust
 base=/Volumes/codebase/www/
-if [ -n "${4}" ]; then
-    shortSource=${4}
-    fullSource=branches/${4}
+if [ -n "${3}" ]; then
+    shortSource=${3}
+    fullSource=branches/${3}
 fi
 
 case ${project} in
